@@ -13,8 +13,6 @@ The original lab environments are designed to run on [Kathará](https://github.c
 > [!NOTE]
 > This is a personal fork of the official `vitome/pnd-labs` repository. My goal is to maintain a clean, highly readable workbench of solutions to serve as a reference for myself, future assignments, and other students tackling these topologies.
 
----
-
 ## 🚀 Getting Started
 To run any of these labs on your local machine, ensure you have Docker and Kathará installed. 
 
@@ -31,24 +29,28 @@ kathara lclean
 > [!TIP]
 > A note on Topologies: Unless specifically mentioned in an exercise's solution README, all networks utilize the default `lab.conf` provided by the original course materials.
 
----
 
-## 🔌 Connecting the Host to the Lab
-To interact directly with the virtual machines from your physical host (for example, to capture traffic with Wireshark or test web services), you can use the provided `connect-lab.sh` script. 
+## 🔌 Host-to-Lab Network Bridge (`connect-lab.sh`)
+To interact directly with the virtual machines from your physical host (for example, to capture traffic with Wireshark or test web services), this repository includes a custom bridging script. 
 
-**What it does:** The script bridges your physical host with the internal Kathará lab network. It creates a virtual Ethernet interface pair (`veth`), attaches one end to the specified virtual LAN's bridge (`br0`), assigns the provided IP address to the un-enslaved end (on your host), and brings both interfaces up.
+**What it does:**
+Instead of manually configuring `veth` pairs and searching for Docker bridges, this script automatically validates your CIDR IP, locates the correct Kathará Docker network (even auto-detecting it if there is only one active LAN), and seamlessly attaches your physical host machine to the virtual environment.
 
 **How to use it:**
-Run the script specifying the desired IP address, subnet mask, and the target LAN name:
+To use this script seamlessly from within any lab subfolder without needing to type relative paths, register it as a local Git alias by running this command once:
 ```bash
-./connect-lab.sh <IP>/<mask> [<lan>]
-```
-*Example (Connecting to the 'external' network):*
-```bash
-./connect-lab.sh 192.168.10.2/24 external
+git config --local alias.connect-lab '!cd "${GIT_PREFIX:-.}" && bash "$(git rev-parse --show-toplevel)/connect-lab.sh"'
 ```
 
----
+Once configured, simply navigate to any running lab directory and specify your desired host IP, subnet mask, and the target LAN name (LAN name is optional if there is only one network):
+```bash
+git connect-lab <IP>/<mask> [lan]
+```
+
+Example (Connecting the host to 'lanA'):
+```bash
+git connect-lab 192.168.100.200/24 lanA
+```
 
 ## 💻 Color-Coded Terminal Launcher (`lstart.sh`)
 To improve the workflow when dealing with complex topologies, this repository includes an embedded, custom lab launcher script. 
@@ -69,8 +71,6 @@ Once configured, simply navigate to any lab directory and type:
 ```bash
 git lstart
 ```
-
----
 
 ## 🗂️ Lab Structure
 The repository is divided into thematic modules. **For detailed topologies, step-by-step configurations, and task explanations, please refer to the specific `README.md` inside each lab folder.**
