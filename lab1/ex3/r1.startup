@@ -1,17 +1,21 @@
+# 0. Flush the pre-existing confs (not required but best practice)
 ip addr flush eth0
 ip addr flush eth1
 
-# Lan1
+# 1. Setup eth1 interface towards Lan1
 ip addr add 172.16.1.254/24 dev eth1
 ip link set eth1 up
 
-# Internal
+# 2. Setup eth0 interface toward Internal
 ip addr add 172.16.254.1/24 dev eth0
 ip link set eth0 up
 
+# 3. Add default Gateway
 ip route add default via 172.16.254.254
+
+# 4. Add static route to reach Lan2
 ip route add 172.16.2.0/24 via 172.16.254.2
 
-
-echo "nameserver 151.100.4.2" >> /etc/resolv.conf
-echo "nameserver 151.100.4.13" >> /etc/resolv.conf
+# 5. Configure DNS resolution manually
+echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf

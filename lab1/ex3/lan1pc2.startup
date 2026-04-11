@@ -1,8 +1,15 @@
+# 0. Flush the pre-existing conf (not required but best practice)
 ip addr flush eth0
 
+# 1. Assign the designated IP from the subnet
 ip addr add 172.16.1.2/24 dev eth0
+
+# 2. Add the default gateway (r1)
 ip route add default via 172.16.1.254
+
+# 3. Bring up the interface
 ip link set eth0 up
 
-echo "nameserver 151.100.4.2" >> /etc/resolv.conf
-echo "nameserver 151.100.4.13" >> /etc/resolv.conf
+# 4. Configure DNS resolution manually
+echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf

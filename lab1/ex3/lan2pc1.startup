@@ -1,8 +1,9 @@
+# 0. Flush the pre-existing conf (not required but best practice)
 ip addr flush eth0
 
-ip addr add 172.16.2.1/24 dev eth0
-ip route add default via 172.16.2.254
-ip link set eth0 up
+# 1. Request the configuration for eth0 to the DHCP server
+dhclient eth0
 
-echo "nameserver 151.100.4.2" >> /etc/resolv.conf
-echo "nameserver 151.100.4.13" >> /etc/resolv.conf
+# 2. Configure DNS resolution manually
+echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf

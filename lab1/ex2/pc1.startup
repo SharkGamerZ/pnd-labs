@@ -1,6 +1,9 @@
+# 0. Flush the pre-existing conf (not required but best practice)
 ip addr flush eth0
 
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "nameserver 1.1.1.1" > /etc/resolv.conf
-
+# 1. Bring up the interface
 ifup eth0
+
+# 2. Configure DNS resolution manually
+echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf

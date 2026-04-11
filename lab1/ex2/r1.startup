@@ -1,11 +1,16 @@
+# 1. Set the IP of r1
 ip addr replace 192.168.100.30/28 dev eth0
-ip link set eth0 up
+
+# 2. NAT all traffic directed outside the LAN
 iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
+# 3. Install UDHCPD
 dpkg -i /var/cache/apt/archives/*.deb
+apt install -f udhcpd
 
+# 4. Make UDHCPD read the conf
 udhcpd /etc/udhcpd.conf
 
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "nameserver 1.1.1.1" > /etc/resolv.conf
-
+# 5. Configure DNS resolution manually
+echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
