@@ -14,7 +14,7 @@ in the lab.conf OR in a priviledged container.
 - pc3 has to use stable privacy extension, setting the stable_secret
 
 - pc4 has to use the EUI-64 and use the temporary addresses. Set up
-  a short lifetime in order to see multiple addresses. 
+  a short lifetime in order to see multiple addresses.
 
 - router r1 is already set up. You only have to turn on the radvd server
   to capture the router advertisement packets using tcpdump.

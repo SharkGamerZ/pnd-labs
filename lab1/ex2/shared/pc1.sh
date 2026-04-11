@@ -1,0 +1,1 @@
+ifup eth0

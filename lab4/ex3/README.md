@@ -3,9 +3,13 @@ a DMZ (203.0.113.0/24, 2001:db8:cafe:2::/64) with two servers,
 a router (192.168.100.1, 2001:db8:cafe:1::1, 203.0.113.1, 2001:db8:cafe:2::1,
   198.51.100.29/24, 2001:db8:beef:1::29/64) connected to an ISP provider.
 
+
+
+
 In the DMZ you've got 
   one Web server (203.0.113.80, 2001:db8:cafe:2::80) on TCP ports 80 and 443,
   and one mail server (203.0.113.25, 2001:db8:cafe:2::25) on TCP port 25.
+
 
 Your security policy is as follows:
 1.Your internal pcs may freely access any Web service, anywhere, on ports
@@ -13,9 +17,12 @@ Your security policy is as follows:
   they are allowed to browse the Web). No one outside the internal lan 
   can initiate connections to internal lan, on any port.
 
+
 2.Everyone, including the Internet, can access Web (both ports) and mail
   in DMZ to access their main functions and for ping. However, no host in
   DMZ can initiate connections anywhere else.
+
+
 
 3.Internal users can access the Web servers and mail servers in DMZ via SSH,
   too. They can also use SSH to reach any host on the Internet. However, 

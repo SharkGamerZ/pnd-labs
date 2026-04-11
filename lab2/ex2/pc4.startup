@@ -1,0 +1,4 @@
+sysctl -w net.ipv6.conf.eth0.forwarding=0
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+sysctl -w net.ipv6.conf.eth0.use_tempaddr=10
+sysctl -w net.ipv6.conf.eth0.temp_valid_lft=15
