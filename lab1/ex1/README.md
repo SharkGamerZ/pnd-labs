@@ -12,7 +12,9 @@
 
 
 ## Topology
-![Topology](../../img/lab1_ex1_topology.png)
+<p align="center">
+  <img src="../../img/lab1_ex1_topology.png" width="400">
+</p>
 
 
 # Solution

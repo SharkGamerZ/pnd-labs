@@ -9,7 +9,10 @@
 >- the PCs can be configured as you prefer
 
 ## Topology
-![Topology](../../img/lab1_ex3_topology.png)
+
+<p align="center">
+  <img src="../../img/lab1_ex3_topology.png" width="400">
+</p>
 
 # Solution
 First of all, let's understand how to split the subnets for the different networks.
