@@ -20,6 +20,8 @@ The repository is divided into thematic modules. **For detailed topologies, step
   Focuses on foundational IPv4 architecture. Includes manual routing, dynamic address allocation (DHCP), subnetting, and raw traffic dissection using packet sniffers like `tcpdump` and Wireshark.
 * **Lab 2: IPv6 Addressing, ICMPv6, and Security**
   Explores the modern IPv6 protocol suite. Covers SLAAC, DHCPv6 Prefix Delegation (PD), MTU discovery, IPv4/IPv6 transition tunnels (ISATAP), and executing Neighbor Discovery Protocol (NDP) threat exercises (cache poisoning, rogue RAs).
+* **Lab 4: Network Traffic Regulation and Firewalls**
+  Focuses on protecting network perimeters and creating Demilitarized Zones (DMZs). Covers packet filtering, stateful connection tracking, Network Address Translation (NAT masquerading and destination NAT), and transparent firewalls using `iptables` and `ip6tables`.
 
 ## 🛠️ Tech Stack & Tools
 Throughout these exercises, the following tools and daemons are utilized:
@@ -27,6 +29,7 @@ Throughout these exercises, the following tools and daemons are utilized:
 * **Routing & Addressing:** `iproute2`, `udhcpd`, `radvd` (Router Advertisement Daemon), `dnsmasq`, `dibbler`
 * **Traffic Analysis:** Wireshark, `tcpdump`, NetFlow (`nfsen`/`nfdump`)
 * **Security & Packet Crafting:** Scapy (Python interactive packet manipulation), THC-IPV6, IPv6 Toolkit 
+* **Firewalling:** `iptables`, `ip6tables`
 
 ---
 
@@ -45,3 +48,21 @@ kathara lclean
 
 > [!TIP]
 > A note on Topologies: Unless specifically mentioned in an exercise's solution README, all networks utilize the default `lab.conf` provided by the original course materials.
+
+---
+
+### 🔌 Connecting the Host to the Lab
+To interact directly with the virtual machines from your physical host (for example, to capture traffic with Wireshark or test web services), you can use the provided `connect-lab.sh` script. 
+
+**What it does:** 
+The script bridges your physical host with the internal Kathará lab network. It creates a virtual Ethernet interface pair (`veth`), attaches one end to the specified virtual LAN's bridge (`br0`), assigns the provided IP address to the un-enslaved end (on your host), and brings both interfaces up.
+
+**How to use it:**
+Run the script specifying the desired IP address, subnet mask, and the target LAN name:
+```bash
+./connect-lab.sh <IP>/<mask> [<lan>]
+```
+*Example (Connecting to the 'external' network):*
+```bash
+./connect-lab.sh 192.168.10.2/24 external
+```
