@@ -56,7 +56,8 @@ To improve the workflow when dealing with complex topologies, this repository in
 **What it does:**
 Instead of manually opening terminals, this script automatically boots the current lab in `--privileged` mode (which is required for many of the advanced routing and firewall exercises) and launches a dedicated, color-coded terminal window for every device in the topology based on its role (e.g., Routers in Slate, PCs in Dark Blue, Attackers in Dark Red). 
 
->[!WARNING]This script strictly requires the `kitty` terminal emulator to function.
+> [!WARNING]
+> This script strictly requires the `kitty` terminal emulator to function.
 
 **How to use it:**
 To use this script seamlessly from within any lab subfolder without messing with relative paths, register it as a local Git alias by running this command once:
