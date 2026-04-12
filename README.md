@@ -52,6 +52,9 @@ Example (Connecting the host to 'lanA'):
 git connect-lab 192.168.100.200/24 lanA
 ```
 
+> [!WARNING] 
+> Note that while it's not strictly necessary to use an IP from the same subnet as the LAN (a broader subnet works too), matching the subnet is highly recommended to ensure a headache-free setup.
+
 ## 💻 Color-Coded Terminal Launcher (`lstart.sh`)
 To improve the workflow when dealing with complex topologies, this repository includes an embedded, custom lab launcher script. 
 

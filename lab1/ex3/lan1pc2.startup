@@ -11,5 +11,5 @@ ip route add default via 172.16.1.254
 ip link set eth0 up
 
 # 4. Configure DNS resolution manually
-echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
 echo "nameserver 8.8.8.8" >> /etc/resolv.conf

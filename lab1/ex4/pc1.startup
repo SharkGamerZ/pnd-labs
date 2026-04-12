@@ -1,7 +1,13 @@
+# 1. Set the IP
 ip addr add 10.0.0.1/24 broadcast 10.0.0.255 dev eth0
-echo nameserver 8.8.8.8 > /etc/resolv.conf
 
+# 2. Configure DNS resolution manually
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+
+# 3. Install all packages in shared/
 echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 dpkg -i --force-confold shared/*.deb
-/etc/init.d/apache2 start
 
+# 4. Start the Web-Server
+/etc/init.d/apache2 start

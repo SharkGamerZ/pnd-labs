@@ -135,10 +135,10 @@ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
 
 # Tests
-To make sure our lab is configured correctly, we can do some tests, as the slides suggest:
+To make sure our lab is configured correctly, we can do some tests, as the slides state:
 > Verify connectivity within the network and with the Internet (ex: `wget www.google.com`)
 
-First of all let's start the lab ([take a look at the git alias](../../README.md#color-coded-terminal-launcher-lstartsh)) on our host machine.
+First let's start the lab ([take a look at the git alias](../../README.md#color-coded-terminal-launcher-lstartsh)) on our host machine.
 ```bash
 host:~$ git lstart
 ```
@@ -147,19 +147,27 @@ host:~$ git lstart
 Once it starts, we can try to see if the hosts can reach one another, to ensure connectivity **through the LAN**.  
 Let's try from various hosts:
 - [x] **PC1 to PC3 (Cross-LAN):**
-`root@pc1:/# ping -c 1 192.168.100.27`
+```console
+root@pc1:/# ping -c 1 192.168.100.27
+```
 - [x] **PC2 to PC1 (Cross-LAN):**
-`root@pc2:/# ping -c 1 192.168.100.25`
+```console
+root@pc2:/# ping -c 1 192.168.100.25
+```
 - [x] **PC3 to Default Gateway:** 
-`root@pc3:/# ping -c 1 192.168.100.30`
+```console
+root@pc3:/# ping -c 1 192.168.100.30
+```
 
 
 ## Internet Connectivity
 We can then test the **internet connection**:
 
 - [x] **PC1 Internet Connectivity:**
-`root@pc1:/# wget google.com`
+```console
+root@pc1:/# wget google.com
+```
 - [x] **R1 (Gateway) Internet Connectivity:**
-`root@r1:/# wget google.com`
-
-
+```console
+root@r1:/# wget google.com
+```

@@ -24,5 +24,5 @@ ip route add default via 172.16.254.254
 ip route add 172.16.1.0/24 via 172.16.254.1
 
 # 7. Configure DNS resolution manually
-echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
 echo "nameserver 8.8.8.8" >> /etc/resolv.conf

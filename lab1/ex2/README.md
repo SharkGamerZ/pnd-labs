@@ -52,7 +52,7 @@ And then tell `r1` to use it.
 > The `eth1` interface of `r1` is the one connected to the outside.
 
 📄 **File:** `r1.startup`
-```bash
+```diff
 # 1. Set the IP of r1
 ip addr replace 192.168.100.30/28 dev eth0
 
@@ -64,11 +64,11 @@ dpkg -i /var/cache/apt/archives/*.deb
 apt install -f udhcpd
 
 # 4. Make UDHCPD read the conf
-udhcpd /etc/udhcpd.conf
++ udhcpd /etc/udhcpd.conf
 
 # 5. Configure DNS resolution manually
-echo "nameserver 1.1.1.1" >> /etc/resolv.conf
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf
++ echo "nameserver 1.1.1.1" > /etc/resolv.conf
++ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
 
 ## PC1
@@ -91,8 +91,8 @@ ip addr flush eth0
 ifup eth0
 
 # 2. Configure DNS resolution manually
-echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
 
 ## PC2
@@ -105,18 +105,75 @@ The `dhclient` command automatically configures the interface with dhcp.
 # 0. Flush the pre-existing conf (not required but best practice)
 ip addr flush eth0
 
-# 1. Request the configuration for eth0 to the DHCP server
+# 1. Request the configuration for eth0 from the DHCP server
 dhclient eth0
 
 # 2. Configure DNS resolution manually
-echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
+# Tests
+To make sure our lab is configured correctly, we can do some tests, as the slides state:
+> Verify connectivity within the network and with the Internet (ex: `ping www.google.com`)
+
+First let's [start the lab](../../README.md#color-coded-terminal-launcher-lstartsh) on our host machine.
+```bash
+host:~$ git lstart
+```
+
+We can then check what IPs were assigned to `pc1` and `pc2`.  
+First on `pc1`
+```console
+root@pc1:/# ip -4 addr show eth0
+30: eth0@if29: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netnsid 0
+    inet 192.168.100.29/28 brd 192.168.100.31 scope global dynamic eth0
+       valid_lft 863884sec preferred_lft 863884sec
+```
+
+And then on `pc2`
+```console
+root@pc2:/# ip -4 addr show eth0
+35: eth0@if34: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netnsid 0
+    inet 192.168.100.22/28 brd 192.168.100.31 scope global dynamic eth0
+       valid_lft 863738sec preferred_lft 863738sec
+```
+
+
+So we have:
+- `pc1`: 192.168.100.29/28
+- `pc2`: 192.168.100.22/28
+
+
+## Intra-LAN Tests
+We can test to see if the hosts can reach one another, to ensure connectivity **through the LAN**.  
+Let's try from both hosts:
+- [x] **PC1 to PC2 (Cross-LAN):**
+```console
+root@pc1:/# ping -c 1 192.168.100.22
+```
+- [x] **PC2 to Default Gateway:**
+```console
+root@pc2:/# ping -c 1 192.168.100.30
+```
+
+## Internet Connectivity
+We can then test the **internet connection**:
+
+- [x] **PC1 Internet Connectivity:**
+```console
+root@pc1:/# ping -c 1 google.com
+```
+- [x] **R1 (Gateway) Internet Connectivity:**
+```console
+root@r1:/# ping -c 1 google.com
+```
+
+
 
 # Capturing Packets
 As one of the [lab1/ex4](../ex4/) activities, we have to capture the traffic between the DHCP server and client.
 
-To do so we can achieve it in two ways:
+We can achieve it in two ways:
 - Using `tcpdump` on `r1`.
 - Connecting to the network with the `connect-lab.sh` and using `wireshark` to sniff the traffic.
 
@@ -125,8 +182,8 @@ We are going to proceed with the latter, for no particular reason.
 ## Setup the lab
 To make sure that we can intercept the packets exchanged between the client/server, we must first remove the commands that automatically start the dhcp client.
 
-As a client we are going to use `pc1`.  
-We comment the instruction that starts the dhcp client.
+To act as a client, we will use `pc1`.  
+We must comment out the `ifup eth0` instruction in its startup file so it doesn't request an IP immediately upon boot.
 
 📄 **File:** `pc1.startup`
 ```bash
@@ -138,30 +195,30 @@ We comment the instruction that starts the dhcp client.
 
 
 ## Setup the listener
-First of all we start the lab.
+First let's [start the lab](../../README.md#color-coded-terminal-launcher-lstartsh) on our host machine.
 ```bash
-git lstart
+host:~$ git lstart
 ```
 
-Then we must connect to the lanA, using an available address.
+Then we must [connect to the lanA](../../README.md#host-to-lab-network-bridge), using an available address.
 ```bash
-git connect-lab 192.168.100.29/28 lanA
+host:~$ git connect-lab 192.168.100.29/28 lanA
 ```
 
-> [!WARNING] 
-> Actually it's not *necessary* that we use an IP from the same subnet as the LAN, it works even if we put a broader IP, but it's better and headache-free if we do it correctly.
 
-We then open `wireshark`, and start to listen on the `veth0` interface.
+We then open `wireshark`, and start to **listen** on the `veth0` interface.
 
 To make the client start the DHCP exchange, we go on `pc1` and we type
-```bash
-ifup eth0
+```console
+root@pc1:/# ifup eth0
 ```
+
+We can see the packets being captured from Wireshark.
 
 Once we collected the data (that can be found in the [dhcp.pcap](./captures/dhcp.pcap)), we can analyze it.
 
 
-If we type in the display filter bar `dhcp`, we can take a look at the message exchanged between the client and server, to get a lease.
+If we type in the display filter bar `dhcp` we can take a look at the messages, exchanged between the client and server, to get a lease.
 
 
 If we want to look at it schematically it looks like this:

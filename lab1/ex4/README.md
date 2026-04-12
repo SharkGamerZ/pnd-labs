@@ -6,19 +6,36 @@ Use Wireshark to analyze the resulting `.pcap` files, extract sensitive informat
 > **Cross-Exercise Captures:** 
 > Per the assignment, traffic captures were also generated for the DHCP handshake (ex2) and Inter-LAN routing (ex3).  
 To maintain proper context, the `.pcap` files and the analysis for those specific protocol exchanges are located within their respective exercise directories.
+> - [ ] TODO: Complete Activity 5 about [CTF of Hack3rCon 3 conference (2012)](https://drive.google.com/file/d/1ANd0t_U7Ya8R1fppcHhi51WYq9FjltM6/view).
 
 
 # Solution
 
 The core of this exercise focuses on observing how unencrypted application-layer protocols transmit data across a network, and how easily a passive listener can extract sensitive credentials.  
 
+To do so, we are going to connect to the network with the `connect-lab.sh` and using `wireshark` to sniff the traffic.
+
+First of all let's [start the lab](../../README.md#color-coded-terminal-launcher-lstartsh) on our host machine.
+```bash
+host:~$ git lstart
+```
+
+Then we must [connect to the lan](../../README.md#host-to-lab-network-bridge), using an available address.
+```bash
+host:~$ git connect-lab 10.0.0.2/24 lanA
+```
+
+For each activity we are going to listen on `veth0`, and then generate the traffic.  
+The resulting `*.pcap` can be found in [captures/](./captures/).
+
 ## 1. Web Traffic: `da.php` vs. `ba.php`
 In this scenario, we captured traffic while authenticating against two local PHP pages using native HTTP authentication schemes, using the credentials `angelo:angsp`.
 
-Both pages, present at `http://10.0.0.1/da.php` and `http://10.0.0.1/ba.php` prompt us to login:
+Both pages, present at `http://10.0.0.1/da.php` and `http://10.0.0.1/ba.php`, prompt us to login:
 <p align="center">
   <img src="../../img/php_login_form.png" width="350">
 </p>
+
 
 
 ### Analyzing `ba.php` (HTTP Basic Authentication)

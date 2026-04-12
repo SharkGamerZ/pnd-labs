@@ -1,11 +1,18 @@
+# 1. NAT all traffic directed outside the LAN
 iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
-# Internal
+# 2. Set the IP towards Internal LAN
 ip addr add 172.16.254.254/24 dev eth0
+
+# 3. Bring up the interface
 ip link set eth0 up
 
+# 4. Add static route to reach Lan1
 ip route add 172.16.1.0/24 via 172.16.254.1
+
+# 5. Add static route to reach Lan2
 ip route add 172.16.2.0/24 via 172.16.254.2
 
-echo "nameserver 151.100.4.2" >> /etc/resolv.conf
-echo "nameserver 151.100.4.13" >> /etc/resolv.conf
+# 6. Configure DNS resolution manually
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
