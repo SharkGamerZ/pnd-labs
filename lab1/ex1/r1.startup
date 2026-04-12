@@ -1,8 +1,12 @@
+# 1. Statically define the IP of r1
 ip addr replace 192.168.100.30/29 dev eth0
+
+# 2. Bring up the interface (not necessary on Kathara, but best practice)
 ip link set eth0 up
 
-
+# 3. NAT all traffic directed outside the LAN
 iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
+# 4. Configure DNS resolution manually
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 echo "nameserver 8.8.8.8" >> /etc/resolv.conf

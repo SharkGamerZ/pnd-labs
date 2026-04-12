@@ -34,6 +34,28 @@ We are going to use this IPs:
 - **PC2**: 192.168.100.2**6**
 - **PC3**: 192.168.100.2**7**
 
+## R1
+Let's start with finishing the configuration for `r1`.  
+The professor already gave us a stub, we just have to add the DNS server into `/etc/resolv.conf`
+
+> [!NOTE]
+> The `eth1` interface of `r1` is the one connected to the outside.
+
+📄 **File:** `r1.startup`
+```diff
+# 1. Statically define the IP of r1
+ip addr replace 192.168.100.30/29 dev eth0
+
+# 2. Bring up the interface (not necessary on Kathara, but best practice)
+ip link set eth0 up
+
+# 3. NAT all traffic directed outside the LAN
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+
+# 4. Configure DNS resolution manually
++ echo "nameserver 1.1.1.1" > /etc/resolv.conf
++ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+```
 
 ## PC1
 > PC1 should be configured using the `interfaces` file.
@@ -64,8 +86,8 @@ ip addr flush eth0
 ifup eth0
 
 # 2. Configure DNS resolution manually
-echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
 
 ## PC2
@@ -86,8 +108,8 @@ ip route add default via 192.168.100.30
 ip link set eth0 up
 
 # 4. Configure DNS resolution
-echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
 
 ## PC3
@@ -108,6 +130,36 @@ route add default gw 192.168.100.30
 ifconfig eth0 up
 
 # 4. Configure DNS resolution
-echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 ```
+
+# Tests
+To make sure our lab is configured correctly, we can do some tests, as the slides suggest:
+> Verify connectivity within the network and with the Internet (ex: `wget www.google.com`)
+
+First of all let's start the lab ([take a look at the git alias](../../README.md#color-coded-terminal-launcher-lstartsh)) on our host machine.
+```bash
+host:~$ git lstart
+```
+
+## Intra-LAN Tests
+Once it starts, we can try to see if the hosts can reach one another, to ensure connectivity **through the LAN**.  
+Let's try from various hosts:
+- [x] **PC1 to PC3 (Cross-LAN):**
+`root@pc1:/# ping -c 1 192.168.100.27`
+- [x] **PC2 to PC1 (Cross-LAN):**
+`root@pc2:/# ping -c 1 192.168.100.25`
+- [x] **PC3 to Default Gateway:** 
+`root@pc3:/# ping -c 1 192.168.100.30`
+
+
+## Internet Connectivity
+We can then test the **internet connection**:
+
+- [x] **PC1 Internet Connectivity:**
+`root@pc1:/# wget google.com`
+- [x] **R1 (Gateway) Internet Connectivity:**
+`root@r1:/# wget google.com`
+
+

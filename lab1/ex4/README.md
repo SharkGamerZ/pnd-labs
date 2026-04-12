@@ -4,7 +4,7 @@ Use Wireshark to analyze the resulting `.pcap` files, extract sensitive informat
 
 > [!NOTE]
 > **Cross-Exercise Captures:** 
-> Per the assignment, traffic captures were also generated for ICMP/ARP (ex1), the DHCP handshake (ex2), and Inter-LAN routing (ex3).  
+> Per the assignment, traffic captures were also generated for the DHCP handshake (ex2) and Inter-LAN routing (ex3).  
 To maintain proper context, the `.pcap` files and the analysis for those specific protocol exchanges are located within their respective exercise directories.
 
 
