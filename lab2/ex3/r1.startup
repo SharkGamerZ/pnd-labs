@@ -1,6 +1,26 @@
+# 0. Install dependencies
 echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 dpkg -i /shared/*.deb
 apt install -yf dnsmasq
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
-ip addr add 192.168.100.69 dev eth0
+# 1. NAT all traffic directed outside the LAN
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+
+# 2. Flush the interface
+ip addr flush eth0
+
+# 3. Add the IPv4 Address
+ip addr add 192.168.100.1/24 dev eth0
+
+# 4. Add the IPv6 GUA Address
+ip addr add 2001:db8:fede:1::1/64 dev eth0
+
+# 5. Add the IPv6 Link-Local Address
+ip addr add fe80::1/64 dev eth0
+
+# 6. Set the DNS servers
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+echo 'nameserver 2001:4860:4860::8888' >> /etc/resolv.conf
+
+# 7. Startup the DHCPv6 server (dnsmasq)
+dnsmasq

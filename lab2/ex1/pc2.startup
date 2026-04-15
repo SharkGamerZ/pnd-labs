@@ -1,1 +1,5 @@
+# 1. Set the IP
+ip addr add 2001:db8:cafe:1::102/64 dev eth0
 
+# 2. Set the Gateway
+ip route add default via fe80::1 dev eth0

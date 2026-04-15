@@ -1,4 +1,12 @@
-umount /etc/resolv.conf
-#dpkg -i /shared/dibbler-client*.deb
-#apt install -y dibbler-client
+# 0. Install dependencies
+dpkg -i /shared/dibbler-client*.deb
+apt install -y dibbler-client
 
+# 1. Disable forwarding
+sysctl -w net.ipv6.conf.eth0.forwarding=0
+
+# 2. Accept Router Advertisements
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+
+# 3. Start dibbler
+dibbler-client start

@@ -11,9 +11,11 @@ fi
 IP_CIDR=$1
 LAN_NAME=$2
 
-# 2. Basic validation for the IP/Mask format (x.x.x.x/y)
-if [[ ! $IP_CIDR =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$ ]]; then
-  echo "[-] Error: Invalid IP/Mask format. Please use CIDR notation (e.g., 10.0.0.2/24)."
+# 2. Basic validation for the IP/Mask format (IPv4 or IPv6)
+# Checks for IPv4 (x.x.x.x/y) OR IPv6 (xxxx:xxxx::xxxx/y)
+if [[ ! $IP_CIDR =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$ ]] && [[ ! $IP_CIDR =~ ^[0-9a-fA-F:]+/[0-9]+$ ]]; then
+  echo "[-] Error: Invalid IP/Mask format."
+  echo "    Please use CIDR notation for IPv4 (e.g., 10.0.0.2/24) or IPv6 (e.g., 2001:db8:cafe:1::101/64)."
   exit 1
 fi
 

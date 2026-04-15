@@ -245,20 +245,30 @@ So, the IPs we have are:
 We can test to see if the hosts can reach one another, to ensure connectivity **through the LANs**.  
 Let's try from some hosts:
 - [x] **LAN2PC1 to LAN2PC2 (Intra-LAN):**
-`root@lan2pc1:/# ping -c 1 172.16.2.219`
+  ```console
+  root@lan2pc1:/# ping -c 1 172.16.2.219
+  ```
 - [x] **LAN1PC1 to LAN2PC1 (Inter-LAN):**
-`root@lan1pc1:/# ping -c 1 172.16.2.139`
+  ```console
+  root@lan1pc1:/# ping -c 1 172.16.2.139
+  ```
 - [x] **LAN2PC2 to R0 (Inter-LAN):**
-`root@lan2pc2:/# ping -c 1 172.16.254.254`
+  ```console
+  root@lan2pc2:/# ping -c 1 172.16.254.254
+  ```
 
 
 ## Internet Connectivity
 We can then test the **internet connection**:
 
 - [x] **LAN1PC2 Internet Connectivity:**
-`root@lan1pc2:/# curl google.it`
+  ```console
+  root@lan1pc2:/# curl google.it
+  ```
 - [x] **R2 (LAN2 Gateway) Internet Connectivity:**
-`root@r2:/# curl google.it`
+  ```console
+  root@r2:/# curl google.it
+  ```
 
 # Capturing Packets
 As one of the [lab1/ex4](../ex4/) activities, we have to capture the traffic between the hosts of two different LANs, from different positions.  

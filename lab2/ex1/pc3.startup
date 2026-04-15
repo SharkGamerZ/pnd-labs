@@ -1,1 +1,5 @@
+# 1. Set the IP
+ifconfig eth0 inet6 add 2001:db8:cafe:2::103/64
 
+# 2. Set the Gateway
+route -A inet6 add default gw fe80::1 dev eth0

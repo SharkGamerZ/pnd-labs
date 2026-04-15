@@ -147,27 +147,27 @@ host:~$ git lstart
 Once it starts, we can try to see if the hosts can reach one another, to ensure connectivity **through the LAN**.  
 Let's try from various hosts:
 - [x] **PC1 to PC3 (Cross-LAN):**
-```console
-root@pc1:/# ping -c 1 192.168.100.27
-```
+  ```console
+  root@pc1:/# ping -c 1 192.168.100.27
+  ```
 - [x] **PC2 to PC1 (Cross-LAN):**
-```console
-root@pc2:/# ping -c 1 192.168.100.25
-```
+  ```console
+  root@pc2:/# ping -c 1 192.168.100.25
+  ```
 - [x] **PC3 to Default Gateway:** 
-```console
-root@pc3:/# ping -c 1 192.168.100.30
-```
+  ```console
+  root@pc3:/# ping -c 1 192.168.100.30
+  ```
 
 
 ## Internet Connectivity
 We can then test the **internet connection**:
 
 - [x] **PC1 Internet Connectivity:**
-```console
-root@pc1:/# wget google.com
-```
+  ```console
+  root@pc1:/# wget google.com
+  ```
 - [x] **R1 (Gateway) Internet Connectivity:**
-```console
-root@r1:/# wget google.com
-```
+  ```console
+  root@r1:/# wget google.com
+  ```

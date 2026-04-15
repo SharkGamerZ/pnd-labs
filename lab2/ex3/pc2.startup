@@ -1,1 +1,11 @@
-umount /etc/resolv.conf
+# 1. Disable forwarding
+sysctl -w net.ipv6.conf.eth0.forwarding=0
+
+# 2. Accept Router Advertisements
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+
+# 3. Run dhclient in stateless mode
+dhclient -6 -S eth0
+
+# 4. Set the DNS servers
+echo 'nameserver 2001:4860:4860::8888' > /etc/resolv.conf

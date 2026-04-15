@@ -1,2 +1,18 @@
+#1. Set address' generation modality
+sysctl -w net.ipv6.conf.eth0.addr_gen_mode=2
+
+#2. Disable forwarding
 sysctl -w net.ipv6.conf.eth0.forwarding=0
-sysctl -w net.ipv6.conf.eth0.stable_secret=1:1:1:1:1:1:1:1
+
+#3. Accept Router Advertisements
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+
+#4. Set the stable secret
+sysctl -w net.ipv6.conf.eth0.stable_secret=::1
+
+#5. Flush the pre-generated addresses
+ip addr flush eth0
+
+#6. Bounce the interface
+ip link set eth0 down
+ip link set eth0 up

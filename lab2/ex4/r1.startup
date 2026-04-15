@@ -1,4 +1,21 @@
+# 0. Install dependencies
 echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 umount /etc/resolv.conf
 dpkg -i --force-confold /shared/*.deb
 
+# 1. Flush the pre-generated addressess
+ip addr flush dev eth0
+ip addr flush dev eth1
+ip addr flush dev eth2
+
+# 2. Set the Link-Local addresses with ::1 in the Host
+ip addr add fe80::1/64 dev eth0
+ip addr add fe80::1/64 dev eth1
+ip addr add fe80::1/64 dev eth2
+
+# 3. Start the dhcp6c client and wait to receive the prefixes
+dhcp6c -c /etc/dhcp6c.conf eth0
+sleep 5
+
+# 4. Start dnsmasq to send RAs
+dnsmasq -C /etc/my_dnsmasq.conf

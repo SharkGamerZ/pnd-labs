@@ -1,0 +1,10 @@
+# 1. Set the GUA and Link-Local addresses for LAN1
+ip addr add 2001:DB8:CAFE:1::1/64 dev eth0
+ip addr add fe80::1/64 dev eth0
+
+# 2. Set the GUA and Link-Local addresses for LAN2
+ip addr add 2001:DB8:CAFE:2::1/64 dev eth1
+ip addr add fe80::1/64 dev eth1
+
+# 3. Forward IPv6
+sysctl -w net.ipv6.conf.all.forwarding=1

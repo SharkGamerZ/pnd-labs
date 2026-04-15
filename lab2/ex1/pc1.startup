@@ -1,1 +1,2 @@
-
+# 1. Bring up the interface
+ifup eth0

@@ -78,11 +78,11 @@ git lstart
 ## 🗂️ Lab Structure
 The repository is divided into thematic modules. **For detailed topologies, step-by-step configurations, and task explanations, please refer to the specific `README.md` inside each lab folder.**
 
-* **Lab 1: Networking 101 and Traffic Monitoring**
+* **[Lab 1](./lab1/): Networking 101 and Traffic Monitoring**
   Focuses on foundational IPv4 architecture. Includes manual routing, dynamic address allocation (DHCP), subnetting, and raw traffic dissection using packet sniffers like `tcpdump` and Wireshark.
-* **Lab 2: IPv6 Addressing, ICMPv6, and Security**
+* **[Lab 2](./lab2/): IPv6 Addressing, ICMPv6, and Security**
   Explores the modern IPv6 protocol suite. Covers SLAAC, DHCPv6 Prefix Delegation (PD), MTU discovery, IPv4/IPv6 transition tunnels (ISATAP), and executing Neighbor Discovery Protocol (NDP) threat exercises (cache poisoning, rogue RAs).
-* **Lab 4: Network Traffic Regulation and Firewalls**
+* **[Lab 4](./lab4/): Network Traffic Regulation and Firewalls**
   Focuses on protecting network perimeters and creating Demilitarized Zones (DMZs). Covers packet filtering, stateful connection tracking, Network Address Translation (NAT masquerading and destination NAT), and transparent firewalls using `iptables` and `ip6tables`.
 
 ## 🛠️ Tech Stack & Tools
