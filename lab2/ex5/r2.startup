@@ -1,0 +1,12 @@
+# 1. Set the IP of interfaces
+ip addr add 2001:db8:cafe:2::2/64 dev eth0
+ip addr add 2001:db8:cafe:3::1/64 dev eth1
+
+# 2. Set the routes
+ip route add 2001:db8:cafe:1::/64 via 2001:db8:cafe:2::1
+ip route add 2001:db8:cafe:4::/64 via 2001:db8:cafe:3::2
+
+# 3. Set the MTUs
+ip link set mtu 1480 dev eth0
+ip link set mtu 1450 dev eth1
+

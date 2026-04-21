@@ -16,6 +16,11 @@
 > 
 > - With dibbler, you will have to use a script to make router assigning an address to the interface in the network of the prefix. This will be used as the address radvd will advertise in the network for SLAAC configuration.
 
+## Topology
+<p align="center">
+  <img src="../../img/lab4_ex4_topology.png" width="400">
+</p>
+
 # Solution
 As the tools used I'm going with `dhcp6c` + `dnsmasq`.
 

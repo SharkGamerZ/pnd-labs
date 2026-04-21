@@ -1,1 +1,13 @@
+# 0. Install and start radvd for sending RAs and do SLAAC
+dpkg -i radvd_1%3a2.15-2_amd64.deb
+ifup eth0
+radvd -m logfile -l /var/log/radvd.log
 
+# 1. Set the IP of interface eth1 towards r2
+ip addr add 2001:db8:cafe:2::1/64 dev eth1
+
+# 2. Set the defualt route through r2
+ip route add default via 2001:db8:cafe:2::2
+
+# 3. Set the MTU of link1
+ip link set mtu 1480 dev eth1

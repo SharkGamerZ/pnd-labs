@@ -9,28 +9,30 @@ set devices (grep -oP '[a-zA-Z0-9]+(?=\[)' lab.conf | sort --unique)
 
 # Loop through each unique device found
 for device in $devices
+    # Determine the background color (High-Contrast Palette)
     switch $device
-        case 'r[0-9]*'
-            set bg_color "1a1e24"
-        case '*pc[0-9]*'
-            set bg_color "001a33"
-        case 's[0-9]*'
-            set bg_color "3d3000"
-        case 'fw[0-9]*'
-            set bg_color "002b11"
-        case 'isp' 'isp[0-9]*'
-            set bg_color "1a0033"
-        case 'rw[0-9]*'
-            set bg_color "002b2b"
-        case 'a[0-9]*'
-            set bg_color "380000"
+        case 'r*'
+            set bg_color "333333" # Router: Charcoal Grey (Neutral)
+        case '*pc*'
+            set bg_color "002266" # PC: Deep Royal Blue
+        case 's*'
+            set bg_color "4d3300" # Server: Dark Bronze
+        case 'fw*'
+            set bg_color "004411" # Firewall: Deep Forest Green
+        case 'isp*'
+            set bg_color "440044" # ISP: Deep Purple
+        case 'rw*'
+            set bg_color "004444" # Road Warrior: Deep Cyan
+        case 'a*'
+            set bg_color "550000" # Attacker: Blood Red
         case '*'
-            set bg_color "111111"
+            set bg_color "111111" # Fallback: Near Black
     end
 
-    # Launch Foot terminal, redirecting errors to /dev/null for a clean output
+    # Launch Foot terminal with all colors-dark overrides
     foot --title="$device" \
         --override="colors-dark.background=$bg_color" \
         --override="colors-dark.foreground=ffffff" \
+        --override="colors-dark.alpha=1.0" \
         fish -c "kathara connect -l $device" 2>/dev/null &
 end
